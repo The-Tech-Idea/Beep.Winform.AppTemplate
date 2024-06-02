@@ -7,12 +7,16 @@ using TheTechIdea.Beep.FileManager;
 using TheTechIdea.Beep.MVVM.ViewModels;
 using TheTechIdea.Beep.Workflow;
 using TheTechIdea.Util;
+using System.Xml.Linq;
 
 namespace BeepWinFormsApp
 {
     public partial class MovingData : Form
     {
         private IBeepService beepService;
+
+
+
         public MovingData(IBeepService bservice)
         {
             beepService = bservice;
@@ -21,10 +25,25 @@ namespace BeepWinFormsApp
             // If not saved create a new connection using
             // beepService.DMEEditor.ConfigEditor.SaveDataconnectionsValues();
             BeepSharedFunctions.beepService = beepService;
+            foreach (var item in beepService.Config_editor.DataConnections.Where(p => p.Category == DatasourceCategory.FILE))
 
-            SourceDataSourcescomboBox.Items.Add("country.xls");
-            SourceDataSourcescomboBox.Items.Add("Iris.csv");
-            DestinationDataSourcecomboBox1.Items.Add("northwind.db");
+            {
+                SourceDataSourcescomboBox.Items.Add(item.ConnectionName);
+
+            }
+            foreach (var item in beepService.Config_editor.DataConnections.Where(p => p.Category != DatasourceCategory.FILE))
+
+            {
+                DestinationDataSourcecomboBox1.Items.Add(item.ConnectionName);
+
+            }
+            //SourceDataSourcescomboBox.Items.Add("country.xls");
+            //SourceDataSourcescomboBox.Items.Add("Iris.csv");
+            //DestinationDataSourcecomboBox1.Items.Add("northwind.db");
+
+
+
+
             SourceDataSourcescomboBox.SelectedIndexChanged += SourceDataSourcescomboBox_SelectedIndexChanged;
             DestinationDataSourcecomboBox1.SelectedIndexChanged += DestinationDataSourcecomboBox1_SelectedIndexChanged;
             this.copybutton.Click += Copybutton_Click;
@@ -33,38 +52,44 @@ namespace BeepWinFormsApp
 
         private void Deletebutton_Click(object? sender, EventArgs e)
         {
-            if(DestinationDataSourcecomboBox1 != null) {
+            if (DestinationDataSourcecomboBox1 != null)
+            {
                 if (DestEntitiescomboBox.SelectedItem != null)
                 {
-                    IDataSource dataSource = BeepSharedFunctions.beepService.DMEEditor.GetDataSource(DestinationDataSourcecomboBox1.SelectedItem.ToString());
-                    if(dataSource != null)
+                    BeepSharedFunctions.DestinationDataSource = BeepSharedFunctions.beepService.DMEEditor.GetDataSource(DestinationDataSourcecomboBox1.SelectedItem.ToString());
+                    if (BeepSharedFunctions.DestinationDataSource != null)
                     {
-                       beepService.DMEEditor.ErrorObject= dataSource.ExecuteSql($"Drop Table {DestEntitiescomboBox.SelectedItem}");
-                        if(beepService.DMEEditor.ErrorObject.Flag== Errors.Ok)
+                        BeepSharedFunctions.DestinationDataSource.Openconnection();
+                        if (BeepSharedFunctions.DestinationDataSource.ConnectionStatus == System.Data.ConnectionState.Open)
                         {
-                            LogtextBox.AppendText($"Table {DestEntitiescomboBox.SelectedItem} Deleted" + Environment.NewLine);
-                            LogtextBox.SelectionStart = LogtextBox.Text.Length;
-                            LogtextBox.ScrollToCaret();
-                            DestEntitiescomboBox.Items.Clear();
-                            GetDestEntities();
+                            beepService.DMEEditor.ErrorObject = BeepSharedFunctions.DestinationDataSource.ExecuteSql($"Drop Table {DestEntitiescomboBox.SelectedItem}");
+                            if (beepService.DMEEditor.ErrorObject.Flag == Errors.Ok)
+                            {
+                                LogtextBox.AppendText($"Table {DestEntitiescomboBox.SelectedItem} Deleted" + Environment.NewLine);
+                                LogtextBox.SelectionStart = LogtextBox.Text.Length;
+                                LogtextBox.ScrollToCaret();
+                                DestEntitiescomboBox.Items.Clear();
+                                GetDestEntities();
 
+                            }
+                            else
+                            {
+                                LogtextBox.AppendText($"Error Deleting Table {DestEntitiescomboBox.SelectedItem} : {beepService.DMEEditor.ErrorObject.Message}" + Environment.NewLine);
+                                LogtextBox.SelectionStart = LogtextBox.Text.Length;
+                                LogtextBox.ScrollToCaret();
+                            }
                         }
-                        else
-                        {
-                            LogtextBox.AppendText($"Error Deleting Table {DestEntitiescomboBox.SelectedItem} : {beepService.DMEEditor.ErrorObject.Message}" + Environment.NewLine);
-                            LogtextBox.SelectionStart = LogtextBox.Text.Length;
-                            LogtextBox.ScrollToCaret();
-                        }
-                      
+
+
                     }
-                    
+
                 }
             }
         }
 
         private void Copybutton_Click(object? sender, EventArgs e)
         {
-            if(SourceEntitiescomboBox.SelectedItem==null || DestinationDataSourcecomboBox1.SelectedItem==null )
+            if (SourceEntitiescomboBox.SelectedItem == null || DestinationDataSourcecomboBox1.SelectedItem == null)
             {
                 return;
             }
@@ -76,7 +101,8 @@ namespace BeepWinFormsApp
             progressBar1.Value = 1;
             progressBar1.Step = 1;
             progressBar1.Maximum = 1;
-            var progress = new Progress<PassedArgs>(percent => {
+            var progress = new Progress<PassedArgs>(percent =>
+            {
                 progressBar1.CustomText = percent.ParameterInt1 + " out of " + percent.ParameterInt2;
 
                 if (percent.ParameterInt2 > 0)
@@ -106,8 +132,8 @@ namespace BeepWinFormsApp
             string source = SourceDataSourcescomboBox.SelectedItem.ToString();
             string dest = DestinationDataSourcecomboBox1.SelectedItem.ToString();
             string entity = SourceEntitiescomboBox.SelectedItem.ToString();
-          var retval=  Task.Run(() => BeepSharedFunctions.MoveEntity(source, dest, entity, progress));
-            if(retval.Result.Flag== Errors.Ok)
+            var retval = Task.Run(() => BeepSharedFunctions.MoveEntity(source, dest, entity, progress));
+            if (retval.Result.Flag == Errors.Ok)
             {
                 LogtextBox.AppendText($"Entity {entity} Copied to {dest}" + Environment.NewLine);
                 LogtextBox.SelectionStart = LogtextBox.Text.Length;
@@ -121,14 +147,14 @@ namespace BeepWinFormsApp
                 LogtextBox.SelectionStart = LogtextBox.Text.Length;
                 LogtextBox.ScrollToCaret();
             }
-           
-           
-           
+
+
+
         }
 
         private void DestinationDataSourcecomboBox1_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            GetDataSourceFromCombobox(DestinationDataSourcecomboBox1.SelectedItem.ToString());
+            GetDestinationDataSourceFromCombobox(DestinationDataSourcecomboBox1.SelectedItem.ToString());
             DestEntitiescomboBox.Items.Clear();
             GetDestEntities();
         }
@@ -141,21 +167,26 @@ namespace BeepWinFormsApp
         }
         private void GetDataSourceFromCombobox(string dsname)
         {
-            switch (dsname)
+
+            BeepSharedFunctions.SourceDataSource = BeepSharedFunctions.beepService.DMEEditor.GetDataSource(dsname);
+            if (BeepSharedFunctions.SourceDataSource != null)
             {
-                case "country.xls":
-
-                    BeepSharedFunctions.CreateConnectionForXls();
-                    break;
-                case "Iris.csv":
-
-                    BeepSharedFunctions.CreateConnectionForCSV();
-                    break;
-                case "northwind.db":
-
-                    BeepSharedFunctions.CreateConnectionForSqlite();
-                    break;
+                BeepSharedFunctions.SourceDataSource.Openconnection();
             }
+
+
+
+
+        }
+        private void GetDestinationDataSourceFromCombobox(string dsname)
+        {
+
+            BeepSharedFunctions.DestinationDataSource = BeepSharedFunctions.beepService.DMEEditor.GetDataSource(dsname);
+            if (BeepSharedFunctions.DestinationDataSource != null)
+            {
+                BeepSharedFunctions.DestinationDataSource.Openconnection();
+            }
+
 
 
         }
@@ -164,7 +195,7 @@ namespace BeepWinFormsApp
             // Get the list of entities
             SourceEntitiescomboBox.Items.Clear();
             List<string> strings = new List<string>();
-            if(SourceDataSourcescomboBox.SelectedItem != null)
+            if (SourceDataSourcescomboBox.SelectedItem != null)
             {
                 switch (SourceDataSourcescomboBox.SelectedItem.ToString())
                 {
@@ -174,8 +205,16 @@ namespace BeepWinFormsApp
                     case "Iris.csv":
                         strings = BeepSharedFunctions.CSVFile.GetEntitesList();
                         break;
-                    case "northwind.db":
-                        strings = BeepSharedFunctions.Sqlite_SampleDB.GetEntitesList();
+                   
+                    default:
+                        if (BeepSharedFunctions.SourceDataSource != null)
+                        {
+                            if (BeepSharedFunctions.SourceDataSource.ConnectionStatus == System.Data.ConnectionState.Open)
+                            {
+                                strings = BeepSharedFunctions.SourceDataSource.GetEntitesList();
+                            }
+
+                        }
                         break;
                 }
 
@@ -186,7 +225,7 @@ namespace BeepWinFormsApp
                     SourceEntitiescomboBox.Items.Add(item);
                 }
             }
-           
+
         }
         private void GetDestEntities()
         {
@@ -197,14 +236,16 @@ namespace BeepWinFormsApp
             {
                 switch (DestinationDataSourcecomboBox1.SelectedItem.ToString())
                 {
-                    case "country.xls":
-                        strings = BeepSharedFunctions.XlsFile.GetEntitesList();
-                        break;
-                    case "Iris.csv":
-                        strings = BeepSharedFunctions.CSVFile.GetEntitesList();
-                        break;
-                    case "northwind.db":
-                        strings = BeepSharedFunctions.Sqlite_SampleDB.GetEntitesList();
+                    default:
+                        if (BeepSharedFunctions.DestinationDataSource != null)
+                        {
+                            BeepSharedFunctions.DestinationDataSource.Openconnection();
+                            if (BeepSharedFunctions.DestinationDataSource.ConnectionStatus == System.Data.ConnectionState.Open)
+                            {
+                                strings = BeepSharedFunctions.DestinationDataSource.GetEntitesList();
+                            }
+
+                        }
                         break;
                 }
 
@@ -215,7 +256,7 @@ namespace BeepWinFormsApp
                     DestEntitiescomboBox.Items.Add(item);
                 }
             }
-          
+
         }
     }
 }

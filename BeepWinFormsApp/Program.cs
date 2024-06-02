@@ -32,7 +32,12 @@ namespace BeepWinFormsApp
 
             // Start the Application
              BeepProgram.StartLoadingDataThenShowMainForm(new string[3] { "BeepEnterprize", "TheTechIdea", "Beep" });
-            Application.Run(new MovingData(BeepProgram.beepService));
+          
+            BeepSharedFunctions.beepService = BeepProgram.beepService;
+            BeepSharedFunctions.CreateConnectionForSqlite();
+            BeepSharedFunctions.CreateConnectionForXls();
+            BeepSharedFunctions.CreateConnectionForCSV();
+            Application.Run(new MainForm(BeepProgram.beepService));
             // Dispose Services
             BeepProgram.DisposeServices(host.Services);
         }

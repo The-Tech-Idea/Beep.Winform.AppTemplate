@@ -16,7 +16,11 @@ namespace BeepWinFormsApp
         public static CSVDataSource CSVFile;
         public static IBeepService beepService;
 
-        
+
+        public static IDataSource DestinationDataSource;
+        public static IDataSource SourceDataSource;
+
+
         public static ConnectionDriversConfig GetConnectionDriversConfig(DataSourceType type)
         {
             // Get the list of connection drivers
@@ -152,39 +156,38 @@ namespace BeepWinFormsApp
         public static IErrorsInfo MoveEntity(string src,string dest,string entityname,Progress<PassedArgs> progress)
         {
             beepService.DMEEditor.ErrorObject=new   ErrorsInfo();
-             IDataSource source = beepService.DMEEditor.GetDataSource(src);
-            IDataSource destination = beepService.DMEEditor.GetDataSource(dest);
+           
          
-            if(source==null || destination == null)
+            if(SourceDataSource == null || DestinationDataSource == null)
             {
                 beepService.DMEEditor.AddLogMessage("Beep","Source or Destination not found", DateTime.Now, 0, "", Errors.Failed);
                 return beepService.DMEEditor.ErrorObject;
             }
-            if (destination.DatasourceType == DataSourceType.CSV || destination.DatasourceType == DataSourceType.Xls)
+            if (DestinationDataSource.DatasourceType == DataSourceType.CSV || DestinationDataSource.DatasourceType == DataSourceType.Xls)
             {
                 beepService.DMEEditor.AddLogMessage("Beep", "Destination is not a database", DateTime.Now, 0, "", Errors.Failed);
                 return beepService.DMEEditor.ErrorObject;
             }
-            source.Openconnection();
-            destination.Openconnection();
-            if(source.ConnectionStatus== System.Data.ConnectionState.Open && destination.ConnectionStatus == System.Data.ConnectionState.Open)
+            SourceDataSource.Openconnection();
+            DestinationDataSource.Openconnection();
+            if(SourceDataSource.ConnectionStatus== System.Data.ConnectionState.Open && DestinationDataSource.ConnectionStatus == System.Data.ConnectionState.Open)
             {
-                 EntityStructure srcentity= source.GetEntityStructure(entityname,true);
-                 EntityStructure destentity = destination.GetEntityStructure(entityname, true);
+                 EntityStructure srcentity= SourceDataSource.GetEntityStructure(entityname,true);
+                 EntityStructure destentity = DestinationDataSource.GetEntityStructure(entityname, true);
                  if(srcentity!=null && destentity != null)
                 {
                     try
                     {
                         bool er = true;
-                        var data = source.GetEntity(entityname, null);
-                        if(destination.CheckEntityExist(entityname) == false)
+                        var data = SourceDataSource.GetEntity(entityname, null);
+                        if(DestinationDataSource.CheckEntityExist(entityname) == false)
                         {
-                          er=  destination.CreateEntityAs(srcentity);
+                          er= DestinationDataSource.CreateEntityAs(srcentity);
         
                         }
                         if (er)
                         {
-                            destination.UpdateEntities(entityname, data, progress);
+                            DestinationDataSource.UpdateEntities(entityname, data, progress);
                         }
                         
                     }

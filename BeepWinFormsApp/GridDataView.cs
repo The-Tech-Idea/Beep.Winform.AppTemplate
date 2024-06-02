@@ -140,21 +140,21 @@ namespace BeepWinFormsApp
 
         private void GetDataSourceFromCombobox()
         {
-            switch (DataSourcescomboBox.SelectedItem.ToString())
-            {
-                case "country.xls":
+            //switch (DataSourcescomboBox.SelectedItem.ToString())
+            //{
+            //    case "country.xls":
                     
-                    BeepSharedFunctions.CreateConnectionForXls();
-                    break;
-                case "Iris.csv":
+            //        BeepSharedFunctions.CreateConnectionForXls();
+            //        break;
+            //    case "Iris.csv":
                     
-                    BeepSharedFunctions.CreateConnectionForCSV();
-                    break;
-                case "northwind.db":
+            //        BeepSharedFunctions.CreateConnectionForCSV();
+            //        break;
+            //    case "northwind.db":
                     
-                    BeepSharedFunctions.CreateConnectionForSqlite();
-                    break;
-            }
+            //        BeepSharedFunctions.CreateConnectionForSqlite();
+            //        break;
+            //}
 
           
         }
