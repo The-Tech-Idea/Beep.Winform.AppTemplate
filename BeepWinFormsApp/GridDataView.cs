@@ -39,12 +39,14 @@ namespace BeepWinFormsApp
             // If not saved create a new connection using
             // beepService.DMEEditor.ConfigEditor.SaveDataconnectionsValues();
             BeepSharedFunctions.beepService=beepService;
-          
-            DataSourcescomboBox.Items.Add("country.xls");
-            DataSourcescomboBox.Items.Add("Iris.csv");
-            DataSourcescomboBox.Items.Add("northwind.db");
+            foreach (var item in beepService.Config_editor.DataConnections)
+
+            {
+                DataSourcescomboBox.Items.Add(item.ConnectionName);
+
+            }
             // if not found create a new connection
-          
+
             this.Getbutton.Click += Getbutton_Click;
             // Add Events
             // Called when Save button is clicked

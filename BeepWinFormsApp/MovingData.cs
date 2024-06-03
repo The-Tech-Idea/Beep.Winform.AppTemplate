@@ -161,9 +161,14 @@ namespace BeepWinFormsApp
 
         private void SourceDataSourcescomboBox_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            GetDataSourceFromCombobox(SourceDataSourcescomboBox.SelectedItem.ToString());
-            SourceEntitiescomboBox.Items.Clear();
-            GetSourceEntities();
+            if (SourceDataSourcescomboBox.SelectedItem != null)
+            {
+                GetDataSourceFromCombobox(SourceDataSourcescomboBox.SelectedItem.ToString());
+                SourceEntitiescomboBox.Items.Clear();
+                GetSourceEntities();
+
+            }
+       
         }
         private void GetDataSourceFromCombobox(string dsname)
         {
