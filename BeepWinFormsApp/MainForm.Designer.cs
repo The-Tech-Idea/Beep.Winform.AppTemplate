@@ -32,6 +32,10 @@
             GridViewbutton = new Button();
             MoveDatabutton = new Button();
             CreateinmemoryDBbutton = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
             SuspendLayout();
             // 
             // CreateLocalDBbutton
@@ -70,19 +74,58 @@
             CreateinmemoryDBbutton.Text = "Create InMemory DB";
             CreateinmemoryDBbutton.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            button1.Location = new Point(50, 195);
+            button1.Name = "button1";
+            button1.Size = new Size(136, 23);
+            button1.TabIndex = 4;
+            button1.Text = "Create InMemory DB";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(50, 235);
+            button2.Name = "button2";
+            button2.Size = new Size(136, 23);
+            button2.TabIndex = 5;
+            button2.Text = "Create InMemory DB";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(50, 274);
+            button3.Name = "button3";
+            button3.Size = new Size(136, 23);
+            button3.TabIndex = 6;
+            button3.Text = "Create InMemory DB";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(50, 316);
+            button4.Name = "button4";
+            button4.Size = new Size(136, 23);
+            button4.TabIndex = 7;
+            button4.Text = "Create InMemory DB";
+            button4.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(230, 623);
+            AutoScaleMode = AutoScaleMode.Inherit;
+            ClientSize = new Size(230, 443);
+            Controls.Add(button4);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
             Controls.Add(CreateinmemoryDBbutton);
             Controls.Add(MoveDatabutton);
             Controls.Add(GridViewbutton);
             Controls.Add(CreateLocalDBbutton);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "MainForm";
-            StartPosition = FormStartPosition.CenterParent;
-            Text = "Beep Sample code";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Samples";
             TopMost = true;
             ResumeLayout(false);
         }
@@ -93,5 +136,9 @@
         private Button GridViewbutton;
         private Button MoveDatabutton;
         private Button CreateinmemoryDBbutton;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Button button4;
     }
 }

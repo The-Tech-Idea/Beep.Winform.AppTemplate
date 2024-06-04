@@ -65,6 +65,7 @@ namespace BeepWinFormsApp
                             beepService.DMEEditor.ErrorObject = BeepSharedFunctions.DestinationDataSource.ExecuteSql($"Drop Table {DestEntitiescomboBox.SelectedItem}");
                             if (beepService.DMEEditor.ErrorObject.Flag == Errors.Ok)
                             {
+                                BeepSharedFunctions.DestinationDataSource.GetEntitesList();
                                 LogtextBox.AppendText($"Table {DestEntitiescomboBox.SelectedItem} Deleted" + Environment.NewLine);
                                 LogtextBox.SelectionStart = LogtextBox.Text.Length;
                                 LogtextBox.ScrollToCaret();
@@ -204,12 +205,7 @@ namespace BeepWinFormsApp
             {
                 switch (SourceDataSourcescomboBox.SelectedItem.ToString())
                 {
-                    case "country.xls":
-                        strings = BeepSharedFunctions.XlsFile.GetEntitesList();
-                        break;
-                    case "Iris.csv":
-                        strings = BeepSharedFunctions.CSVFile.GetEntitesList();
-                        break;
+                  
                    
                     default:
                         if (BeepSharedFunctions.SourceDataSource != null)

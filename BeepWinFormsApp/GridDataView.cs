@@ -7,12 +7,13 @@ using TheTechIdea.Beep.FileManager;
 using TheTechIdea.Beep.MVVM.ViewModels;
 using TheTechIdea.Beep.Workflow;
 using TheTechIdea.Util;
+using System.Xml.Linq;
 namespace BeepWinFormsApp
 {
     public partial class GridDataView : Form
     {
 
-       
+
         private IBeepService beepService;
 
 
@@ -26,7 +27,7 @@ namespace BeepWinFormsApp
         // and the VisManager
         // and the DataSources
         // and the DataDrivers
-        
+
         public GridDataView(IBeepService bservice)
         {
             beepService = bservice;
@@ -38,7 +39,7 @@ namespace BeepWinFormsApp
             // Getting  Connection if Saved 
             // If not saved create a new connection using
             // beepService.DMEEditor.ConfigEditor.SaveDataconnectionsValues();
-            BeepSharedFunctions.beepService=beepService;
+            BeepSharedFunctions.beepService = beepService;
             foreach (var item in beepService.Config_editor.DataConnections)
 
             {
@@ -59,14 +60,14 @@ namespace BeepWinFormsApp
             beepGrid1.BindingNavigator.EditCalled += BeepbindingNavigator1_EditCalled;
             this.FormClosing += GridDataView_FormClosing;
             this.DataSourcescomboBox.SelectedIndexChanged += DataSourcescomboBox_SelectedIndexChanged;
-            this.beepGrid1.Theme=BeepThemes.EarthyTheme;
+            this.beepGrid1.Theme = BeepThemes.EarthyTheme;
             // Add Themes to the combobox
             this.ThemecomboBox.Items.Add("EarthyTheme");
             this.ThemecomboBox.Items.Add("DarkTheme");
             this.ThemecomboBox.Items.Add("LightTheme");
             this.ThemecomboBox.Items.Add("AutumnTheme");
             this.ThemecomboBox.Items.Add("CandyTheme");
-                
+
             this.ThemecomboBox.Items.Add("ForestTheme");
             this.ThemecomboBox.Items.Add("HighlightTheme");
             this.ThemecomboBox.Items.Add("OceanTheme");
@@ -127,45 +128,47 @@ namespace BeepWinFormsApp
                     this.beepGrid1.Theme = BeepThemes.ZenTheme;
                     break;
             }
-         
+
         }
 
         private void DataSourcescomboBox_SelectedIndexChanged(object? sender, EventArgs e)
         {
             EntitiescomboBox.Text = "";
-           EntitiescomboBox.Items.Clear();
-           this.beepGrid1.DataSource = null;
-            
-           GetDataSourceFromCombobox();
-           GetEntities();
+            EntitiescomboBox.Items.Clear();
+            this.beepGrid1.DataSource = null;
+            GetDataSourceFromCombobox();
+            GetEntities();
         }
 
         private void GetDataSourceFromCombobox()
         {
-            //switch (DataSourcescomboBox.SelectedItem.ToString())
-            //{
-            //    case "country.xls":
-                    
-            //        BeepSharedFunctions.CreateConnectionForXls();
-            //        break;
-            //    case "Iris.csv":
-                    
-            //        BeepSharedFunctions.CreateConnectionForCSV();
-            //        break;
-            //    case "northwind.db":
-                    
-            //        BeepSharedFunctions.CreateConnectionForSqlite();
-            //        break;
-            //}
+            if (DataSourcescomboBox.SelectedItem != null)
+            {
 
-          
+                BeepSharedFunctions.SourceDataSource = BeepSharedFunctions.beepService.DMEEditor.GetDataSource(DataSourcescomboBox.SelectedItem.ToString());
+                if (BeepSharedFunctions.SourceDataSource != null)
+                {
+                    BeepSharedFunctions.SourceDataSource.Openconnection();
+                }
+                if (BeepSharedFunctions.SourceDataSource.ConnectionStatus == System.Data.ConnectionState.Open)
+                {
+                    GetEntities();
+                }
+                else
+                {
+                    beepService.DMEEditor.AddLogMessage("Beep", $"Error Opening Connection", DateTime.Now, -1, null, Errors.Failed);
+                }
+
+
+            }
         }
         private void GridDataView_FormClosing(object? sender, FormClosingEventArgs e)
         {
             // Close the connection
             BeepSharedFunctions.CloseConnections();
+            BeepSharedFunctions.SourceDataSource.Closeconnection();
             // Dispose the connection
-            
+
         }
 
         private void Getbutton_Click(object? sender, EventArgs e)
@@ -175,24 +178,9 @@ namespace BeepWinFormsApp
             if (EntitiescomboBox.SelectedItem != null)
             {
                 string entityname = EntitiescomboBox.SelectedItem.ToString();
-                switch (DataSourcescomboBox.SelectedItem.ToString())
-                {
-                    case "country.xls":
-                        data = BeepSharedFunctions.XlsFile.GetEntity(entityname, null);
-                        Structure = BeepSharedFunctions.XlsFile.GetEntityStructure(entityname);
-                        break;
-                    case "Iris.csv":
-                        data = BeepSharedFunctions.CSVFile.GetEntity(entityname, null);
-                        Structure = BeepSharedFunctions.CSVFile.GetEntityStructure(entityname,false);
-                        break;
-                    case "northwind.db":
-                        data = BeepSharedFunctions.Sqlite_SampleDB.GetEntity(entityname, null);
-                        Structure = BeepSharedFunctions.Sqlite_SampleDB.GetEntityStructure(entityname);
-                        break;
-                }
-                
-                
 
+                data = BeepSharedFunctions.SourceDataSource.GetEntity(entityname, null);
+                Structure = BeepSharedFunctions.SourceDataSource.GetEntityStructure(entityname, true);
                 this.beepGrid1.ResetData(data, Structure);
 
             }
@@ -225,27 +213,29 @@ namespace BeepWinFormsApp
             // Get the list of entities
             EntitiescomboBox.Items.Clear();
             List<string> strings = new List<string>();
-            switch (DataSourcescomboBox.SelectedItem.ToString())
+
+
+            if (BeepSharedFunctions.SourceDataSource != null)
             {
-                case "country.xls":
-                    strings = BeepSharedFunctions.XlsFile.GetEntitesList();
-                    break;
-                case "Iris.csv":
-                    strings = BeepSharedFunctions.CSVFile.GetEntitesList();
-                    break;
-                case "northwind.db":
-                    strings = BeepSharedFunctions.Sqlite_SampleDB.GetEntitesList();
-                    break;
+                BeepSharedFunctions.SourceDataSource.Openconnection();
+                if (BeepSharedFunctions.SourceDataSource.ConnectionStatus == System.Data.ConnectionState.Open)
+                {
+                    strings = BeepSharedFunctions.SourceDataSource.GetEntitesList();
+                }
+
+
+                // Add the entities to the combobox
+                EntitiescomboBox.Items.Clear();
+                foreach (string item in strings)
+                {
+                    EntitiescomboBox.Items.Add(item);
+                }
             }
-          
-            // Add the entities to the combobox
-            EntitiescomboBox.Items.Clear();
-            foreach (string item in strings)
-            {
-                EntitiescomboBox.Items.Add(item);
-            }
+
+
+
         }
-     
+
         #endregion
 
     }
