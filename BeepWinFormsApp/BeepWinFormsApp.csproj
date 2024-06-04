@@ -53,4 +53,8 @@
     <PackageReference Include="TheTechIdea.Beep.Winform.Views" Version="1.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Beep\Entities\" />
+  </ItemGroup>
+
 </Project>

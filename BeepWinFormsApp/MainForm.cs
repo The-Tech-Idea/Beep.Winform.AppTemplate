@@ -32,6 +32,13 @@ namespace BeepWinFormsApp
             this.CreateLocalDBbutton.Click += CreateLocalDBbutton_Click;
             this.MoveDatabutton.Click += MoveDatabutton_Click;
             this.GridViewbutton.Click += GridViewbutton_Click;
+            this.GenerateEntitiesPOCObutton.Click += GenerateEntitiesPOCObutton_Click;
+        }
+
+        private void GenerateEntitiesPOCObutton_Click(object? sender, EventArgs e)
+        {
+            GenerateEntitiesPOCO generateEntitiesPOCO=new GenerateEntitiesPOCO(beepService);
+            generateEntitiesPOCO.ShowDialog();
         }
 
         private void CreateinmemoryDBbutton_Click(object? sender, EventArgs e)

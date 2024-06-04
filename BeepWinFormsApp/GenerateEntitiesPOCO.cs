@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace BeepWinFormsApp
 {
-    public partial class UnitofWork : Form
+    public partial class GenerateEntitiesPOCO : Form
     {
         private IBeepService beepService;
 
@@ -26,35 +26,52 @@ namespace BeepWinFormsApp
         // and the VisManager
         // and the DataSources
         // and the DataDrivers
-        
-        public UnitofWork(IBeepService bservice)
+
+        public GenerateEntitiesPOCO(IBeepService bservice)
         {
             beepService = bservice;
             InitializeComponent();
-            // Setup Grid
-            beepGrid1.SetConfig(beepService.DMEEditor, beepService.lg, beepService.util, new string[] { }, beepService.DMEEditor.Passedarguments, beepService.DMEEditor.ErrorObject);
+            foreach (var item in beepService.Config_editor.DataConnections)
 
-            // Setup Crud View
+            {
+                DataSourcescomboBox.Items.Add(item.ConnectionName);
+
+            }
             this.Getbutton.Click += Getbutton_Click;
-            // Add Events
-            // Called when Save button is clicked
-            beepGrid1.BindingNavigator.SaveCalled += BeepbindingNavigator1_SaveCalled;
-            // Called when Search button is clicked
-            beepGrid1.BindingNavigator.ShowSearch += BeepbindingNavigator1_ShowSearch;
-            // Called when New Record button is clicked
-            beepGrid1.BindingNavigator.NewRecordCreated += BeepbindingNavigator1_NewRecordCreated;
-            // Called when Edit button is clicked
-            beepGrid1.BindingNavigator.EditCalled += BeepbindingNavigator1_EditCalled;
             this.FormClosing += GridDataView_FormClosing;
             this.DataSourcescomboBox.SelectedIndexChanged += DataSourcescomboBox_SelectedIndexChanged;
-            this.beepGrid1.Theme = BeepThemes.EarthyTheme;
-            // Add Themes to the combobox
         }
+
+        private void Getbutton_Click(object? sender, EventArgs e)
+        {
+            if (EntitiescomboBox.SelectedItem != null) {
+                string entittyname = EntitiescomboBox.SelectedItem.ToString();
+                if (BeepSharedFunctions.SourceDataSource.ConnectionStatus == System.Data.ConnectionState.Open)
+                {
+                    EntityStructure structure=BeepSharedFunctions.SourceDataSource.GetEntityStructure(entittyname, true);
+                    if (structure != null)
+                    {
+                        string ent=beepService.DMEEditor.classCreator.CreatEntityClass(structure, "", "", beepService.BeepDirectory+"\\Beep\\Entities" );
+                        if (ent != null) { 
+                            LogtextBox.Text = ent;
+                        }
+
+                    }
+
+            }
+                else
+                {
+                    beepService.DMEEditor.AddLogMessage("Beep", $"Error Opening Connection", DateTime.Now, -1, null, Errors.Failed);
+                }
+            }
+           
+        }
+
         private void DataSourcescomboBox_SelectedIndexChanged(object? sender, EventArgs e)
         {
             EntitiescomboBox.Text = "";
             EntitiescomboBox.Items.Clear();
-            this.beepGrid1.DataSource = null;
+           
             GetDataSourceFromCombobox();
             GetEntities();
         }
@@ -89,44 +106,6 @@ namespace BeepWinFormsApp
             // Dispose the connection
 
         }
-
-        private void Getbutton_Click(object? sender, EventArgs e)
-        {
-            object data = null;
-            EntityStructure Structure = new EntityStructure();
-            if (EntitiescomboBox.SelectedItem != null)
-            {
-                string entityname = EntitiescomboBox.SelectedItem.ToString();
-
-                data = BeepSharedFunctions.SourceDataSource.GetEntity(entityname, null);
-                Structure = BeepSharedFunctions.SourceDataSource.GetEntityStructure(entityname, true);
-                this.beepGrid1.ResetData(data, Structure);
-
-            }
-        }
-        #region "Grid Events"
-        private void BeepbindingNavigator1_EditCalled(object? sender, BindingSource e)
-        {
-
-        }
-
-        private void BeepbindingNavigator1_NewRecordCreated(object? sender, BindingSource e)
-        {
-
-        }
-
-        private void BeepbindingNavigator1_ShowSearch(object? sender, BindingSource e)
-        {
-
-        }
-
-        private void BeepbindingNavigator1_SaveCalled(object? sender, BindingSource e)
-        {
-
-        }
-
-        #endregion
-        #region "DataConnection Methdods"
         private void GetEntities()
         {
             // Get the list of entities
@@ -154,7 +133,5 @@ namespace BeepWinFormsApp
 
 
         }
-    
-        #endregion
     }
 }
