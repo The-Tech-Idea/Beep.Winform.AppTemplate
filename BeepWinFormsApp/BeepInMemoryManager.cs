@@ -1,4 +1,4 @@
-﻿using Beep.Vis.Module;
+﻿using TheTechIdea.Beep.Vis.Modules;
 using TheTechIdea.Beep;
 using TheTechIdea.Util;
 using DataManagementModels.DriversConfigurations;
@@ -23,11 +23,11 @@ namespace Beep.InMemory.Logic
                 string dbname = "";
                 string classhandle = "";
                 List<string> ls=InMemoryDBs.Select(p => p.className).ToList();
-                if(Vis.Controlmanager.InputComboBox("Beep","Select InMemoryDB Provider",ls,ref classhandle) == Beep.Vis.Module.DialogResult.OK)
+                if(Vis.Controlmanager.InputComboBox("Beep","Select InMemoryDB Provider",ls,ref classhandle) == TheTechIdea.Beep.Vis.Modules.DialogResult.OK)
                 {
                     if (!string.IsNullOrEmpty(classhandle))
                     {
-                        if (Vis.Controlmanager.InputBox("Beep", "Enter name for Database", ref dbname) == Beep.Vis.Module.DialogResult.OK)
+                        if (Vis.Controlmanager.InputBox("Beep", "Enter name for Database", ref dbname) == TheTechIdea.Beep.Vis.Modules.DialogResult.OK)
                         {
                             if (!string.IsNullOrEmpty(dbname))
                             {

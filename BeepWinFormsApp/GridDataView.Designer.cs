@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            Beep.Vis.Module.BeepTheme beepTheme2 = new Beep.Vis.Module.BeepTheme();
+            TheTechIdea.Beep.Vis.Modules.BeepTheme beepTheme2 = new TheTechIdea.Beep.Vis.Modules.BeepTheme();
             beepGrid1 = new TheTechIdea.Beep.Winform.Controls.Grid.BeepGrid();
             EntitiescomboBox = new ComboBox();
             Getbutton = new Button();
@@ -67,13 +67,13 @@
             beepGrid1.NameSpace = null;
             beepGrid1.ObjectName = null;
             beepGrid1.ObjectType = "UserControl";
-            beepGrid1.ParentBranch = null;
+           // beepGrid1.ParentBranch = null;
             beepGrid1.ParentName = null;
             beepGrid1.Passedarg = null;
-            beepGrid1.pbr = null;
+           // beepGrid1.pbr = null;
             beepGrid1.Progress = null;
             beepGrid1.ReadOnly = false;
-            beepGrid1.RootBranch = null;
+           // beepGrid1.RootBranch = null;
             beepGrid1.ShowFilterPanel = false;
             beepGrid1.ShowTotalsPanel = false;
             beepGrid1.Size = new Size(915, 617);
@@ -105,12 +105,12 @@
             beepTheme2.TextBoxBackColor = Color.White;
             beepTheme2.TextBoxForeColor = Color.Black;
             beepTheme2.TitleForColor = Color.Black;
-            beepGrid1.Theme = beepTheme2;
-            beepGrid1.Tree = null;
+           // beepGrid1.Theme = beepTheme2;
+           // beepGrid1.Tree = null;
             beepGrid1.util = null;
             beepGrid1.VerifyDelete = true;
-            beepGrid1.ViewRootBranch = null;
-            beepGrid1.Visutil = null;
+          //  beepGrid1.ViewRootBranch = null;
+         //   beepGrid1.Visutil = null;
             // 
             // EntitiescomboBox
             // 

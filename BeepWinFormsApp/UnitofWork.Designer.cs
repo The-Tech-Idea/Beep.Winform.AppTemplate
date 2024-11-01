@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            Beep.Vis.Module.BeepTheme beepTheme1 = new Beep.Vis.Module.BeepTheme();
+            TheTechIdea.Beep.Vis.Modules.BeepTheme beepTheme1 = new TheTechIdea.Beep.Vis.Modules.BeepTheme();
             label3 = new Label();
             label2 = new Label();
             DataSourcescomboBox = new ComboBox();
