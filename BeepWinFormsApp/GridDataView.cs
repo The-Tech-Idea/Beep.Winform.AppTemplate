@@ -1,4 +1,4 @@
-using DataManagementModels.DriversConfigurations;
+
 using TheTechIdea;
 using TheTechIdea.Beep.Vis.Modules;
 using TheTechIdea.Beep.Container.Services;
@@ -6,8 +6,9 @@ using TheTechIdea.Beep.DataBase;
 using TheTechIdea.Beep.FileManager;
 using TheTechIdea.Beep.MVVM.ViewModels;
 using TheTechIdea.Beep.Workflow;
-using TheTechIdea.Util;
+using TheTechIdea.Beep.Utilities;
 using System.Xml.Linq;
+using TheTechIdea.Beep.ConfigUtil;
 namespace BeepWinFormsApp
 {
     public partial class GridDataView : Form
@@ -60,7 +61,7 @@ namespace BeepWinFormsApp
             beepGrid1.BindingNavigator.EditCalled += BeepbindingNavigator1_EditCalled;
             this.FormClosing += GridDataView_FormClosing;
             this.DataSourcescomboBox.SelectedIndexChanged += DataSourcescomboBox_SelectedIndexChanged;
-            this.beepGrid1.Theme = BeepThemes.EarthyTheme;
+            this.beepGrid1.Theme = BeepThemesManager.EarthyTheme;
             // Add Themes to the combobox
             this.ThemecomboBox.Items.Add("EarthyTheme");
             this.ThemecomboBox.Items.Add("DarkTheme");
@@ -89,43 +90,43 @@ namespace BeepWinFormsApp
             switch (ThemecomboBox.SelectedItem.ToString())
             {
                 case "EarthyTheme":
-                    this.beepGrid1.Theme = BeepThemes.EarthyTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.EarthyTheme;
                     break;
                 case "DarkTheme":
-                    this.beepGrid1.Theme = BeepThemes.DarkTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.DarkTheme;
                     break;
                 case "LightTheme":
-                    this.beepGrid1.Theme = BeepThemes.LightTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.LightTheme;
                     break;
                 case "AutumnTheme":
-                    this.beepGrid1.Theme = BeepThemes.AutumnTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.AutumnTheme;
                     break;
                 case "CandyTheme":
-                    this.beepGrid1.Theme = BeepThemes.CandyTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.CandyTheme;
                     break;
                 case "ForestTheme":
-                    this.beepGrid1.Theme = BeepThemes.ForestTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.ForestTheme;
                     break;
                 case "HighlightTheme":
-                    this.beepGrid1.Theme = BeepThemes.HighlightTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.HighlightTheme;
                     break;
                 case "OceanTheme":
-                    this.beepGrid1.Theme = BeepThemes.OceanTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.OceanTheme;
                     break;
                 case "RetroTheme":
-                    this.beepGrid1.Theme = BeepThemes.RetroTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.RetroTheme;
                     break;
                 case "RoyalTheme":
-                    this.beepGrid1.Theme = BeepThemes.RoyalTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.RoyalTheme;
                     break;
                 case "SunsetTheme":
-                    this.beepGrid1.Theme = BeepThemes.SunsetTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.SunsetTheme;
                     break;
                 case "WinterTheme":
-                    this.beepGrid1.Theme = BeepThemes.WinterTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.WinterTheme;
                     break;
                 case "ZenTheme":
-                    this.beepGrid1.Theme = BeepThemes.ZenTheme;
+                    this.beepGrid1.Theme = BeepThemesManager.ZenTheme;
                     break;
             }
 

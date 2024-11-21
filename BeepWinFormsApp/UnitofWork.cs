@@ -1,4 +1,4 @@
-﻿using DataManagementModels.DriversConfigurations;
+﻿
 using TheTechIdea;
 using TheTechIdea.Beep.Vis.Modules;
 using TheTechIdea.Beep.Container.Services;
@@ -6,8 +6,9 @@ using TheTechIdea.Beep.DataBase;
 using TheTechIdea.Beep.FileManager;
 using TheTechIdea.Beep.MVVM.ViewModels;
 using TheTechIdea.Beep.Workflow;
-using TheTechIdea.Util;
+using TheTechIdea.Beep.Utilities;
 using System.Xml.Linq;
+using TheTechIdea.Beep.ConfigUtil;
 
 namespace BeepWinFormsApp
 {
@@ -47,7 +48,7 @@ namespace BeepWinFormsApp
             beepGrid1.BindingNavigator.EditCalled += BeepbindingNavigator1_EditCalled;
             this.FormClosing += GridDataView_FormClosing;
             this.DataSourcescomboBox.SelectedIndexChanged += DataSourcescomboBox_SelectedIndexChanged;
-            this.beepGrid1.Theme = BeepThemes.EarthyTheme;
+            this.beepGrid1.Theme = BeepThemesManager.EarthyTheme;
             // Add Themes to the combobox
         }
         private void DataSourcescomboBox_SelectedIndexChanged(object? sender, EventArgs e)
