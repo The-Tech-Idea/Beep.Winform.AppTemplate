@@ -1,4 +1,4 @@
-﻿using DataManagementModels.DriversConfigurations;
+﻿
 using TheTechIdea;
 
 using TheTechIdea.Beep.Container.Services;
@@ -6,8 +6,10 @@ using TheTechIdea.Beep.DataBase;
 using TheTechIdea.Beep.FileManager;
 using TheTechIdea.Beep.MVVM.ViewModels;
 using TheTechIdea.Beep.Workflow;
-using TheTechIdea.Util;
+using TheTechIdea.Beep.Utilities;
 using System.Xml.Linq;
+using TheTechIdea.Beep.ConfigUtil;
+using TheTechIdea.Beep.Addin;
 
 namespace BeepWinFormsApp
 {
@@ -104,7 +106,7 @@ namespace BeepWinFormsApp
             progressBar1.Maximum = 1;
             var progress = new Progress<PassedArgs>(percent =>
             {
-                progressBar1.CustomText = percent.ParameterInt1 + " out of " + percent.ParameterInt2;
+                //progressBar1. = percent.ParameterInt1 + " out of " + percent.ParameterInt2;
 
                 if (percent.ParameterInt2 > 0)
                 {

@@ -37,7 +37,7 @@
             DestinationDataSourcecomboBox1 = new ComboBox();
             copybutton = new Button();
             deletebutton = new Button();
-            progressBar1 = new Beep.Winform.Vis.Controls.TextProgressBar();
+            progressBar1 = new ProgressBar();
             SuspendLayout();
             // 
             // SourceEntitiescomboBox
@@ -121,17 +121,7 @@
             // 
             // progressBar1
             // 
-            progressBar1.Anchor = AnchorStyles.None;
-            progressBar1.CustomText = "";
-            progressBar1.Location = new Point(177, 498);
-            progressBar1.Margin = new Padding(4, 3, 4, 3);
-            progressBar1.Name = "progressBar1";
-            progressBar1.ProgressColor = Color.LightGreen;
-            progressBar1.Size = new Size(396, 27);
-            progressBar1.TabIndex = 26;
-            progressBar1.TextColor = Color.Black;
-            progressBar1.TextFont = new Font("Times New Roman", 11F, FontStyle.Bold | FontStyle.Italic);
-            progressBar1.VisualMode = Beep.Winform.Vis.Controls.ProgressBarDisplayMode.CurrProgress;
+           
             // 
             // MovingData
             // 
@@ -165,6 +155,6 @@
         private ComboBox DestinationDataSourcecomboBox1;
         private Button copybutton;
         private Button deletebutton;
-        private Beep.Winform.Vis.Controls.TextProgressBar progressBar1;
+        private ProgressBar progressBar1;
     }
 }

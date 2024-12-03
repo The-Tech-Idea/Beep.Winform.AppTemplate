@@ -2,9 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TheTechIdea.Beep.Container.Services;
-using TheTechIdea.Util;
+using TheTechIdea.Beep.Utilities;
 using TheTechIdea.Beep.Winform.Extensions;
 using TheTechIdea.Beep.Winform.Controls.KeyManagement;
+using TheTechIdea.Beep.Addin;
 
 
 namespace TheTechIdea.Beep.Container
@@ -36,7 +37,7 @@ namespace TheTechIdea.Beep.Container
         public static void RegisterServices(HostApplicationBuilder builder)
         {
             // Register beep services
-            builder.Services.RegisterBeep(AppContext.BaseDirectory, null, TheTechIdea.Util.BeepConfigType.Application, true);
+            builder.Services.RegisterBeep(AppContext.BaseDirectory, null, BeepConfigType.Application, true);
 
             builder.Services.RegisterVisManager();
 
