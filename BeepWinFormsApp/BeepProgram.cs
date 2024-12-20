@@ -41,8 +41,6 @@ namespace TheTechIdea.Beep.Container
 
             builder.Services.RegisterVisManager();
 
-            
-         
             // Add additional service registrations here
         }
        
@@ -120,6 +118,15 @@ namespace TheTechIdea.Beep.Container
             visManager.visHelper.GetGraphicFilesLocationsFromEmbedded(namespacestoinclude);
             visManager.visHelper.GetGraphicFilesLocations(beepService.DMEEditor.ConfigEditor.Config.Folders.Where(x => x.FolderFilesType == FolderFileTypes.GFX).FirstOrDefault().FolderPath);
 
+        }
+        /// <summary>
+        /// Load Classes That Implement IBeepViewModel
+        /// </summary>
+        /// <param name="namespacestoinclude"></param>
+        public static void LoadViewModels()
+        {
+           
+           
         }
         /// <summary>
         /// Dispose Services

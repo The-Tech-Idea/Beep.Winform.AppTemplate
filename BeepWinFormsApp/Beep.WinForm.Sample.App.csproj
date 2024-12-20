@@ -28,12 +28,12 @@
 
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.0" />
-    <PackageReference Include="TheTechIdea.Beep.AssemblyLoader" Version="2.0.1" />
+    <PackageReference Include="TheTechIdea.Beep.AssemblyLoader" Version="2.0.2" />
     <PackageReference Include="TheTechIdea.Beep.Container" Version="1.0.0.73" />
     <PackageReference Include="TheTechIdea.Beep.Container.Model" Version="1.0.0.39" />
-    <PackageReference Include="TheTechIdea.Beep.DataManagementEngine" Version="2.0.6" />
-    <PackageReference Include="TheTechIdea.Beep.DataManagementModels" Version="2.0.10" />
-    <PackageReference Include="TheTechIdea.Beep.DMLogger" Version="2.0.0" />
+    <PackageReference Include="TheTechIdea.Beep.DataManagementEngine" Version="2.0.7" />
+    <PackageReference Include="TheTechIdea.Beep.DataManagementModels" Version="2.0.22" />
+    <PackageReference Include="TheTechIdea.Beep.DMLogger" Version="2.0.1" />
     <PackageReference Include="TheTechIdea.Beep.DuckDBDataSourceCore" Version="1.0.44" />
     <PackageReference Include="TheTechIdea.Beep.JsonLoader" Version="2.0.1" />
     <PackageReference Include="TheTechIdea.Beep.LiteDBDataSourceCore" Version="1.0.23" />
