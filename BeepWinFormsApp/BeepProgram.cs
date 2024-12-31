@@ -38,13 +38,9 @@ namespace TheTechIdea.Beep.Container
         {
             // Register beep services
             builder.Services.RegisterBeep(AppContext.BaseDirectory, null, BeepConfigType.Application, true);
-
             builder.Services.RegisterVisManager();
-
             // Add additional service registrations here
         }
-       
-       
         /// <summary>
         /// Initialize and Configure Services
         /// </summary>
@@ -70,8 +66,6 @@ namespace TheTechIdea.Beep.Container
          //   visManager = new VisManager(beepService.DMEEditor);
            visManager.SetBeepReference(beepService);
             // Original logic for setting up visManager
-
-
         }
         /// <summary>
       
