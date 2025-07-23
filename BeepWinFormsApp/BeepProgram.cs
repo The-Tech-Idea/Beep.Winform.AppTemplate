@@ -15,7 +15,7 @@ namespace TheTechIdea.Beep.Container
         /// <summary>
         /// Visualiztion Manager
         /// </summary>
-        public static IVisManager visManager { get; set; }
+        public static IAppManager visManager { get; set; }
         /// <summary>
         /// Beep Service
         /// </summary>
@@ -50,7 +50,7 @@ namespace TheTechIdea.Beep.Container
             ServiceHelper.Initialize(host.Services);
             // Extracted service retrieval and initial configuration into a separate method
             beepService = host.Services.GetService<IBeepService>()!;
-            visManager = host.Services.GetService<IVisManager>()!;
+            visManager = host.Services.GetService<IAppManager>()!;
 
             // Assuming these method calls setup and configure the services as necessary
             //Connect Winform Visula Manager to My Beep Service
@@ -109,8 +109,8 @@ namespace TheTechIdea.Beep.Container
             {
                 namespacestoinclude = new string[3] { "BeepEnterprize", "TheTechIdea", "Beep" };
             }
-            visManager.visHelper.GetGraphicFilesLocationsFromEmbedded(namespacestoinclude);
-            visManager.visHelper.GetGraphicFilesLocations(beepService.DMEEditor.ConfigEditor.Config.Folders.Where(x => x.FolderFilesType == FolderFileTypes.GFX).FirstOrDefault().FolderPath);
+          //  visManager.visHelper.GetGraphicFilesLocationsFromEmbedded(namespacestoinclude);
+         //   visManager.visHelper.GetGraphicFilesLocations(beepService.DMEEditor.ConfigEditor.Config.Folders.Where(x => x.FolderFilesType == FolderFileTypes.GFX).FirstOrDefault().FolderPath);
 
         }
         /// <summary>

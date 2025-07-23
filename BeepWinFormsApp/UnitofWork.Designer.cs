@@ -155,7 +155,7 @@
             beepGrid1.util = null;
             beepGrid1.VerifyDelete = true;
             beepGrid1.ViewRootBranch = null;
-            beepGrid1.Visutil = null;
+            
             // 
             // UnitofWork
             // 

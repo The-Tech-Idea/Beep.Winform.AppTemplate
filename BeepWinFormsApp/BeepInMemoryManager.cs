@@ -16,7 +16,7 @@ namespace Beep.InMemory.Logic
     public static class BeepInMemoryManager
     {
         public static string CurrentDbName { get; set; }
-        public static ConnectionProperties CreateInMemoryDB(IDMEEditor DMEEditor, IVisManager Vis)
+        public static ConnectionProperties CreateInMemoryDB(IDMEEditor DMEEditor, IAppManager Vis)
         {
             ConnectionProperties conn = null;
             try
@@ -125,7 +125,7 @@ namespace Beep.InMemory.Logic
                 return null;
             }
         }
-        public static IErrorsInfo LoadStructure(IDMEEditor DMEEditor,IDataSource ds,string dbpath, IVisManager Vis)
+        public static IErrorsInfo LoadStructure(IDMEEditor DMEEditor,IDataSource ds,string dbpath, IAppManager Vis)
         {
             DMEEditor.ErrorObject.Flag = Errors.Ok;
             try
